@@ -1,6 +1,7 @@
-package ma.mycomp.demo.repository;
+package ma.mycomp.demo.service;
 
 import ma.mycomp.demo.domain.Anime;
+import ma.mycomp.demo.repository.AnimeRepository;
 import ma.mycomp.demo.util.Utils;
 import org.springframework.stereotype.Repository;
 
@@ -12,40 +13,35 @@ import java.util.concurrent.ThreadLocalRandom;
 public class AnimeService {
 
     private final Utils utils;
-    private static List<Anime> animeList;
-    static {
-        animeList = new ArrayList<>(List.of(
-                new Anime(1, "Othmane"),
-                new Anime(2, "Omar"),
-                new Anime(3, "Salim")
-        ));
-    }
+    private final AnimeRepository animeRepository;
 
-    public AnimeService(Utils utils) {
+    public AnimeService(Utils utils, AnimeRepository animeRepository) {
         this.utils = utils;
+        this.animeRepository = animeRepository;
     }
 
     public List<Anime> findAll() {
-        return animeList;
+        return animeRepository.findAll();
     }
 
     public Anime findById(int id) {
-        return utils.findAnimeOrThrowNotFound(id, animeList);
+        return utils.findAnimeOrThrowNotFound(id, animeRepository);
+    }
+
+    public List<Anime> findByName(String name) {
+        return animeRepository.findByName(name);
     }
 
     public Anime save(Anime anime) {
-        anime.setId(ThreadLocalRandom.current().nextInt(4, 1000));
-        animeList.add(anime);
-        return anime;
+        return animeRepository.save(anime);
     }
 
     public void deleteById(int id) {
-        animeList.remove(utils.findAnimeOrThrowNotFound(id, animeList));
+        animeRepository.delete(utils.findAnimeOrThrowNotFound(id, animeRepository));
     }
 
     public void update(Anime anime) {
-        animeList.remove(utils.findAnimeOrThrowNotFound(anime.getId(), animeList));
-        animeList.add(anime);
+        animeRepository.save(anime);
     }
 
 }

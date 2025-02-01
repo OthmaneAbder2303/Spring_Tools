@@ -1,0 +1,12 @@
+server:
+  error:
+    include-stacktrace: always
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/anime
+    username: postgres
+    password: Iyas.2020
+  jpa:
+    hibernate:
+      ddl-auto: update  # mise à jour automatique du schéma

@@ -5,9 +5,7 @@ import ma.mycomp.demo.repository.AnimeRepository;
 import ma.mycomp.demo.util.Utils;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Repository
 public class AnimeService {

@@ -3,9 +3,7 @@ package ma.mycomp.demo.util;
 import ma.mycomp.demo.domain.Anime;
 import ma.mycomp.demo.exception.ResourceNotFoundException;
 import ma.mycomp.demo.repository.AnimeRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

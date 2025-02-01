@@ -1,16 +1,16 @@
 version: 'latest'
 services:
   db:
-    image: postgres  # Utilisez l'image PostgreSQL
-    container_name: spb_postgres_container  # Changez le nom du conteneur si nécessaire
+    image: postgres
+    container_name: spb_postgres_container
     environment:
-      POSTGRES_USER: postgres  # Utilisateur par défaut de PostgreSQL
-      POSTGRES_PASSWORD: Iyas.2020  # Mot de passe pour l'utilisateur PostgreSQL
-      POSTGRES_DB: anime  # Nom de la base de données
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Iyas.2020
+      POSTGRES_DB: anime
     ports:
-      - "5432:5432"  # PostgreSQL utilise le port 5432 par défaut
+      - "5432:5432"
     volumes:
-      - documents_data:/var/lib/postgresql/data  # Volume pour stocker les données PostgreSQL
+      - documents_data:/var/lib/postgresql/data
 
 volumes:
   documents_data:

@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.LocalDateTime;
 
-@ControllerAdvice // this is advice for multiple controllers, you're telling controllers that if they find what we're gonna to print here just type this as the default
+@ControllerAdvice // this is advice for multiple controllers,
+// you're telling controllers that if they find what we're gonna to print here just type this as the default
 public class RestExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)

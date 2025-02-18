@@ -4,6 +4,7 @@ import ma.mycomp.demo.domain.Anime;
 import ma.mycomp.demo.repository.AnimeRepository;
 import ma.mycomp.demo.util.Utils;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -30,8 +31,12 @@ public class AnimeService {
         return animeRepository.findByName(name);
     }
 
+    @Transactional
     public Anime save(Anime anime) {
-        return animeRepository.save(anime);
+        Anime save = animeRepository.save(anime);
+        if(true)
+            throw new RuntimeException("Bad Code");
+        return save;
     }
 
     public void deleteById(int id) {

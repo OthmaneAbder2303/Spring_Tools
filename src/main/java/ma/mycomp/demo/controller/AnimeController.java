@@ -1,5 +1,6 @@
 package ma.mycomp.demo.controller;
 
+import jakarta.validation.Valid;
 import ma.mycomp.demo.domain.Anime;
 import ma.mycomp.demo.service.AnimeService;
 import ma.mycomp.demo.util.Utils;
@@ -42,7 +43,7 @@ public class AnimeController {
     }
 
     @PostMapping
-    public ResponseEntity<Anime> createAnime(@RequestBody Anime anime) {
+    public ResponseEntity<Anime> createAnime(@RequestBody @Valid Anime anime) {
         return ResponseEntity.ok(animeService.save(anime));
     }
 

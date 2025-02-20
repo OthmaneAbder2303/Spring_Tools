@@ -31,12 +31,13 @@ public class AnimeService {
         return animeRepository.findByName(name);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Anime save(Anime anime) {
         Anime save = animeRepository.save(anime);
-        if(true)
-            throw new RuntimeException("Bad Code");
+//        if(true)
+//            throw new RuntimeException("Bad Code");
         return save;
+        // the rollback only for RuntimeException
     }
 
     public void deleteById(int id) {

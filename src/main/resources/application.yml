@@ -9,4 +9,14 @@ spring:
     password: Iyas.2020
   jpa:
     hibernate:
-      ddl-auto: update  # mise à jour automatique du schéma
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: false
+    show-sql: true
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG

@@ -1,17 +1,16 @@
 package ma.mycomp.demo.exception;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
+@Getter
 @Data
 @NoArgsConstructor
 public class ExceptionDetails {
 
+    // Getters
     private LocalDateTime timestamp;
     private int status;
     private String title;
@@ -27,37 +26,16 @@ public class ExceptionDetails {
         this.developerMessage = developerMessage;
     }
 
-    // Getters
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getDeveloperMessage() {
-        return developerMessage;
-    }
-
     public static ExceptionDetails.ExceptionDetailsBuilder builder() {
         return new ExceptionDetails.ExceptionDetailsBuilder();
     }
 
     public static class ExceptionDetailsBuilder {
-        private LocalDateTime timestamp;
-        private int status;
-        private String title;
-        private String description;
-        private String developerMessage;
+        protected LocalDateTime timestamp;
+        protected int status;
+        protected String title;
+        protected String description;
+        protected String developerMessage;
 
         public ExceptionDetails.ExceptionDetailsBuilder timestamp(LocalDateTime timestamp) {
             this.timestamp = timestamp;

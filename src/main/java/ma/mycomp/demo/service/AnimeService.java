@@ -3,6 +3,8 @@ package ma.mycomp.demo.service;
 import ma.mycomp.demo.domain.Anime;
 import ma.mycomp.demo.repository.AnimeRepository;
 import ma.mycomp.demo.util.Utils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,8 +21,8 @@ public class AnimeService {
         this.animeRepository = animeRepository;
     }
 
-    public List<Anime> findAll() {
-        return animeRepository.findAll();
+    public Page<Anime> findAll(Pageable pageable) {
+        return animeRepository.findAll(pageable);
     }
 
     public Anime findById(int id) {

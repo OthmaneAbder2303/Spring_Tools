@@ -1,22 +1,34 @@
 package ma.mycomp.demo.exception;
 
+import lombok.Data;
 import lombok.Getter;
-
 import java.time.LocalDateTime;
 
-@Getter
-public class ValidationExceptionDetails extends ExceptionDetails {
+@Data
+public class ValidationExceptionDetails {
 
+    private LocalDateTime timestamp;
+    private int status;
+    private String title;
+    private String description;
+    private String developerMessage;
     private String field;
     private String fieldMessage;
 
     // Constructor
-    public ValidationExceptionDetails(LocalDateTime timestamp, int status, String title, String description, String developerMessage, String field, String fieldMessage) {
-        super(timestamp, status, title, description, developerMessage);
+    public ValidationExceptionDetails(LocalDateTime timestamp, int status, String title,
+                                      String description, String developerMessage, String field,
+                                      String fieldMessage) {
+        this.timestamp = timestamp;
+        this.status = status;
+        this.title = title;
+        this.description = description;
+        this.developerMessage = developerMessage;
         this.field = field;
         this.fieldMessage = fieldMessage;
     }
 
+    // Static builder class
     public static class ValidationExceptionDetailsBuilder {
         private LocalDateTime timestamp;
         private int status;
@@ -26,6 +38,7 @@ public class ValidationExceptionDetails extends ExceptionDetails {
         private String field;
         private String fieldMessage;
 
+        // Builder methods for each field
         public ValidationExceptionDetailsBuilder timestamp(LocalDateTime timestamp) {
             this.timestamp = timestamp;
             return this;

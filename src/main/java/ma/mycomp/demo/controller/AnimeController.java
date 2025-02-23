@@ -6,6 +6,8 @@ import ma.mycomp.demo.service.AnimeService;
 import ma.mycomp.demo.util.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,9 +29,9 @@ public class AnimeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Anime>> getAnimes() {
+    public ResponseEntity<Page<Anime>> getAnimes(Pageable pageable) {
         log.info("Formatting the Date {}", dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
-        return ResponseEntity.ok(animeService.findAll());
+        return ResponseEntity.ok(animeService.findAll(pageable));
     }
 
     @GetMapping(path = "/{id}")

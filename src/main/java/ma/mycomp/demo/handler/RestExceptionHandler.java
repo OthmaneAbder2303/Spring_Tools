@@ -16,9 +16,9 @@ import java.time.LocalDateTime;
 public class RestExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ResourceNotFoundDetails> handleResourceNotFoundException(ResourceNotFoundException e) {
+    public ResponseEntity<ExceptionDetails> handleResourceNotFoundException(ResourceNotFoundException e) {
 
-        ResourceNotFoundDetails details = ResourceNotFoundDetails.builder()
+        ExceptionDetails details = ResourceNotFoundDetails.builder()
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.NOT_FOUND.value())
                 .title("Resource Not Found")
@@ -29,12 +29,12 @@ public class RestExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ValidationExceptionDetails> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+    public ResponseEntity<ExceptionDetails> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 
-        ValidationExceptionDetails details = ValidationExceptionDetails.builder()
+        ExceptionDetails details = ValidationExceptionDetails.builder()
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.BAD_REQUEST.value())
-                .title("Resource Not Found")
+                .title("Validation Failed")
                 .description(e.getMessage())
                 .developerMessage(e.getClass().getName()).build();
 

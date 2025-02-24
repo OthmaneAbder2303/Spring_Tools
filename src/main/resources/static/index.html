@@ -1,10 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Tuto</title>
+    <title>GFG-REST-TEMPLATE</title>
+    <style>
+        h1 {
+            color: forestgreen;
+        }
+        p {
+            width: 500px;
+        }
+    </style>
 </head>
 <body>
-    <div class="title">Heellooo </div>
+<h1>Hello Othmane</h1>
+<h1 th:text="${anime.id}"> Replaceable text </h1>
+<h1 th:text="${anime.name}"> Replaceable text </h1>
+<h1 th:text="${anime.url}"> Replaceable text </h1>
+
+<form method="POST" th:object="${model}">
+    <label for="id">Type ID : </label><br/>
+    <input type="text" th:field="*{id}"><br/>
+
+    <label for="name">Type NAME : </label><br/>
+    <input type="text" th:field="*{name}"><br/>
+
+    <label for="url">Type URL : </label><br/>
+    <input type="text" th:field="*{url}">
+    <input type="submit" value="submit">
+</form>
+
+<p th:text="${headers}"></p>
 </body>
 </html>

@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("animes")
+@RequestMapping("/animes")
 public class AnimeController {
 
     private static final Logger log = LoggerFactory.getLogger(AnimeController.class);

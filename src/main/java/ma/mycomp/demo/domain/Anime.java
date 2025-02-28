@@ -41,6 +41,10 @@ public class Anime {
         this.url = url;
     }
 
+    @Override
+    public String toString() {
+        return "Anime{id=" + id + ", name='" + name + "', url='" + url + "'}";
+    }
 
 
 }

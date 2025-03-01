@@ -28,17 +28,18 @@ public class AnimeController {
         this.animeService = animeService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<Anime>> getAnimes() {
-        log.info("Formatting the Date {}", dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
-        return ResponseEntity.ok(animeService.findAll());
-    }
-
 //    @GetMapping
-//    public ResponseEntity<Page<Anime>> getAnimes(Pageable pageable) {
+//    public ResponseEntity<List<Anime>> getAnimes() {
 //        log.info("Formatting the Date {}", dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
-//        return ResponseEntity.ok(animeService.findAll(pageable));
+//        return ResponseEntity.ok(animeService
+//                .findAll());
 //    }
+
+    @GetMapping
+    public ResponseEntity<Page<Anime>> getAnimes(Pageable pageable) {
+        log.info("Formatting the Date {}", dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
+        return ResponseEntity.ok(animeService.findAll(pageable));
+    }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Anime> getAnimeById(@PathVariable int id) {

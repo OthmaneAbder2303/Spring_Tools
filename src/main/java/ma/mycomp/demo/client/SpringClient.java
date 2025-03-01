@@ -26,10 +26,17 @@ public class SpringClient {
                 .getForObject("http://localhost:8080/animes/{id}", Anime.class, 14);
         logger.info("Anime {}", anime);
 
-        Anime[] animeArray = new RestTemplate()
-                .getForObject("http://localhost:8080/animes", Anime[].class);
-//      List<Anime> animeList = Arrays.asList(animeArray);
-        logger.info("Anime Array {}", Arrays.toString(animeArray));
+//        Anime[] animeArray = new RestTemplate()
+//                .getForObject("http://localhost:8080/animes", Anime[].class);
+////      List<Anime> animeList = Arrays.asList(animeArray);
+//        logger.info("Anime Array {}", Arrays.toString(animeArray));
+
+//        //@formatter:off
+//        ResponseEntity<List<Anime>> exchangeAnimeList = new RestTemplate()
+//                .exchange("http://localhost:8080/animes", HttpMethod.GET, null, new ParameterizedTypeReference<List<Anime>>() {
+//                });
+//        //@formatter:on
+//        logger.info("Anime List {}", exchangeAnimeList.getBody());
 
         //@formatter:off
         ResponseEntity<List<Anime>> exchangeAnimeList = new RestTemplate()
@@ -37,6 +44,5 @@ public class SpringClient {
                 });
         //@formatter:on
         logger.info("Anime List {}", exchangeAnimeList.getBody());
-
     }
 }

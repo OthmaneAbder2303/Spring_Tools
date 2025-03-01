@@ -21,13 +21,13 @@ public class AnimeService {
         this.animeRepository = animeRepository;
     }
 
-    public List<Anime> findAll() {
-        return animeRepository.findAll();
-    }
-
-//    public Page<Anime> findAll(Pageable pageable) {
-//        return animeRepository.findAll(pageable);
+//    public List<Anime> findAll() {
+//        return animeRepository.findAll();
 //    }
+
+    public Page<Anime> findAll(Pageable pageable) {
+        return animeRepository.findAll(pageable);
+    }
 
     public Anime findById(int id) {
         return utils.findAnimeOrThrowNotFound(id, animeRepository);

@@ -35,7 +35,7 @@ public class SpringClient {
         Anime overlord = Anime.builder().name("Overlord").build();
         Anime overlordSaved = new RestTemplate().postForObject("http://localhost:8080/animes?sort=name", overlord, Anime.class);
         if (overlordSaved != null) {
-            logger.info("Overlord Saved id : {}", exchangeAnimeList.getBody());
+            logger.info("Overlord Saved id : {}", overlordSaved.getId());
         }else {
             logger.info("Overlord Not Saved");
         }
@@ -45,12 +45,12 @@ public class SpringClient {
 
     private static void testGetWithRestTemplate(Logger logger) {
         ResponseEntity<Anime> animeResponseEntity = new RestTemplate()
-                .getForEntity("http://localhost:8080/animes/{id}", Anime.class, 14);
+                .getForEntity("http://localhost:8080/animes/{id}", Anime.class, 2);
         logger.info("Response Entity {}", animeResponseEntity);
         logger.info("Response Data {}", animeResponseEntity.getBody());
 
         Anime anime = new RestTemplate()
-                .getForObject("http://localhost:8080/animes/{id}", Anime.class, 14);
+                .getForObject("http://localhost:8080/animes/{id}", Anime.class, 2);
         logger.info("Anime {}", anime);
     }
 }

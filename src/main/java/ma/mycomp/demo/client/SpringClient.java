@@ -17,39 +17,40 @@ import java.util.List;
 public class SpringClient {
 
     public static void main(String[] args) {
-        ResponseEntity<Anime> animeResponseEntity = new RestTemplate()
-                .getForEntity("http://localhost:8080/animes/{id}", Anime.class, 14);
         Logger logger = LoggerFactory.getLogger(SpringClient.class);
-        logger.info("Response Entity {}",animeResponseEntity);
-        logger.info("Response Data {}", animeResponseEntity.getBody());
 
-        Anime anime = new RestTemplate()
-                .getForObject("http://localhost:8080/animes/{id}", Anime.class, 14);
-        logger.info("Anime {}", anime);
+//        testGetWithRestTemplate(logger);
 
-//        Anime[] animeArray = new RestTemplate()
-//                .getForObject("http://localhost:8080/animes", Anime[].class);
-//      //List<Anime> animeList = Arrays.asList(animeArray);
-//        logger.info("Anime Array {}", Arrays.toString(animeArray));
-
-//        //@formatter:off
-//        ResponseEntity<List<Anime>> exchangeAnimeList = new RestTemplate()
-//                .exchange("http://localhost:8080/animes", HttpMethod.GET, null, new ParameterizedTypeReference<List<Anime>>() {
-//                });
-//        //@formatter:on
-//        logger.info("Anime List {}", exchangeAnimeList.getBody());
-
-        ResponseEntity<PageableResponse<Anime>> response = new RestTemplate()
+        ResponseEntity<PageableResponse<Anime>> exchangeAnimeList = new RestTemplate()
                 .exchange("http://localhost:8080/animes?sort=name", HttpMethod.GET, null,
                         new ParameterizedTypeReference<PageableResponse<Anime>>() {});
 
-        PageableResponse<Anime> animePage = response.getBody();
+        PageableResponse<Anime> animePage = exchangeAnimeList.getBody();
 
         if (animePage != null) {
             animePage.getContent().forEach(x -> logger.info("Anime: {}", x));
             logger.info("Total Pages: {}", animePage.getTotalPages());
         }
 
+        Anime overlord = Anime.builder().name("Overlord").build();
+        Anime overlordSaved = new RestTemplate().postForObject("http://localhost:8080/animes?sort=name", overlord, Anime.class);
+        if (overlordSaved != null) {
+            logger.info("Overlord Saved id : {}", exchangeAnimeList.getBody());
+        }else {
+            logger.info("Overlord Not Saved");
+        }
 
+
+    }
+
+    private static void testGetWithRestTemplate(Logger logger) {
+        ResponseEntity<Anime> animeResponseEntity = new RestTemplate()
+                .getForEntity("http://localhost:8080/animes/{id}", Anime.class, 14);
+        logger.info("Response Entity {}", animeResponseEntity);
+        logger.info("Response Data {}", animeResponseEntity.getBody());
+
+        Anime anime = new RestTemplate()
+                .getForObject("http://localhost:8080/animes/{id}", Anime.class, 14);
+        logger.info("Anime {}", anime);
     }
 }

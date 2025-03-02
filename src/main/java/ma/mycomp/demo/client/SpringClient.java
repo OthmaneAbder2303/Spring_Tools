@@ -1,6 +1,7 @@
 package ma.mycomp.demo.client;
 
 import ma.mycomp.demo.domain.Anime;
+import ma.mycomp.demo.wrapper.PageableResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -28,7 +29,7 @@ public class SpringClient {
 
 //        Anime[] animeArray = new RestTemplate()
 //                .getForObject("http://localhost:8080/animes", Anime[].class);
-////      List<Anime> animeList = Arrays.asList(animeArray);
+//      //List<Anime> animeList = Arrays.asList(animeArray);
 //        logger.info("Anime Array {}", Arrays.toString(animeArray));
 
 //        //@formatter:off
@@ -38,11 +39,17 @@ public class SpringClient {
 //        //@formatter:on
 //        logger.info("Anime List {}", exchangeAnimeList.getBody());
 
-        //@formatter:off
-        ResponseEntity<List<Anime>> exchangeAnimeList = new RestTemplate()
-                .exchange("http://localhost:8080/animes", HttpMethod.GET, null, new ParameterizedTypeReference<List<Anime>>() {
-                });
-        //@formatter:on
-        logger.info("Anime List {}", exchangeAnimeList.getBody());
+        ResponseEntity<PageableResponse<Anime>> response = new RestTemplate()
+                .exchange("http://localhost:8080/animes?sort=name", HttpMethod.GET, null,
+                        new ParameterizedTypeReference<PageableResponse<Anime>>() {});
+
+        PageableResponse<Anime> animePage = response.getBody();
+
+        if (animePage != null) {
+            animePage.getContent().forEach(x -> logger.info("Anime: {}", x));
+            logger.info("Total Pages: {}", animePage.getTotalPages());
+        }
+
+
     }
 }

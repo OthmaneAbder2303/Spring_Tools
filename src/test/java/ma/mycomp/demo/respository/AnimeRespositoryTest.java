@@ -1,15 +1,19 @@
 package ma.mycomp.demo.respository;
 
+import jakarta.validation.ConstraintViolationException;
 import ma.mycomp.demo.domain.Anime;
 import ma.mycomp.demo.repository.AnimeRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 import java.util.Optional;
 
+@ExtendWith(SpringExtension.class)
 @DataJpaTest
 @DisplayName("Anime Repository Tests")
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
@@ -78,6 +82,15 @@ public class AnimeRespositoryTest {
         List<Anime> animeList = this.animeRepository.findByName(name);
 
         Assertions.assertThat(animeList).isEmpty();
+    }
+
+    @Test
+    @DisplayName("Save throw ConstraintsViolationException when name is empty")
+    public void save_ThrowConstraintsViolationException_WhenSuccessful() {
+        Anime anime = new Anime();
+
+        Assertions.assertThatThrownBy(() -> this.animeRepository.save(anime))
+                .isInstanceOf(ConstraintViolationException.class);
     }
 
     private Anime createAnime(){

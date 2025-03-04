@@ -10,9 +10,6 @@ import org.springframework.http.*;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
-import java.util.List;
-
 @SpringBootApplication
 public class SpringClient {
 
@@ -43,6 +40,14 @@ public class SpringClient {
                 .getBody();
         logger.info("anime Saved id : {}", animeSaved.getId());
 
+        animeSaved.setName("anime updated");
+        ResponseEntity<Void> updatedAnimeSaved = new RestTemplate()
+                .exchange("http://localhost:8080/animes", HttpMethod.PUT, new HttpEntity<>(animeSaved, createJsonHeader()), Void.class);
+        logger.info("anime Saved Updated Status : {}", updatedAnimeSaved.getStatusCodeValue());
+
+        ResponseEntity<Void> updatedAnimeDeleted = new RestTemplate()
+                .exchange("http://localhost:8080/animes/{id}", HttpMethod.DELETE, null, Void.class, animeSaved.getId());
+        logger.info("anime Saved Deleted Status : {}", updatedAnimeDeleted.getStatusCodeValue());
 
     }
 

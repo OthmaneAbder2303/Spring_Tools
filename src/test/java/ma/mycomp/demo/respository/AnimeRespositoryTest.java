@@ -7,6 +7,7 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.List;
 import java.util.Optional;
 
 @DataJpaTest
@@ -42,7 +43,7 @@ public class AnimeRespositoryTest {
 
     @Test
     @DisplayName("Delete Removes anime when successful")
-    public void save_DeleteAnime_WhenSuccessful() {
+    public void delete_RemoveAnime_WhenSuccessful() {
         Anime anime = createAnime();
         Anime savedAnime = this.animeRepository.save(anime);
 
@@ -52,6 +53,19 @@ public class AnimeRespositoryTest {
         Assertions.assertThat(savedAnime.getId()).isNotNull();
         Assertions.assertThat(savedAnime.getName()).isNotNull();
         Assertions.assertThat(animeOptional.isEmpty()).isTrue();
+    }
+
+    @Test
+    @DisplayName("Find By Name returns anime when successful")
+    public void findByName_ReturnsAnime_WhenSuccessful() {
+        Anime anime = createAnime();
+        Anime savedAnime = this.animeRepository.save(anime);
+
+        String name = savedAnime.getName();
+        List<Anime> animeList = this.animeRepository.findByName(name);
+
+        Assertions.assertThat(animeList).isNotEmpty();
+        Assertions.assertThat(animeList).contains(savedAnime);
     }
 
     private Anime createAnime(){

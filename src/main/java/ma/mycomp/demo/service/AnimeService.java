@@ -39,10 +39,10 @@ public class AnimeService {
 
     @Transactional(rollbackFor = Exception.class)
     public Anime save(Anime anime) {
-        Anime save = animeRepository.save(anime);
+        Anime savedAnime = animeRepository.save(anime);
 //        if(true)
 //            throw new RuntimeException("Bad Code");
-        return save;
+        return savedAnime;
         // the rollback only for RuntimeException
     }
 

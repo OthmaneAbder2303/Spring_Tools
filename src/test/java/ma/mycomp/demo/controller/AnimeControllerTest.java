@@ -30,6 +30,7 @@ class AnimeControllerTest {
 
     @BeforeEach
     public void setUp() {
+        //Avant chaque test, on simule les réponses du AnimeService pour éviter d'accéder à une base de données.
         PageImpl<Anime> animePage = new PageImpl<>(List.of(AnimeCreator.createValidAnime()));
         BDDMockito.when(animeServiceMocked.findAll(ArgumentMatchers.any()))
                 .thenReturn(animePage);
@@ -40,8 +41,9 @@ class AnimeControllerTest {
         BDDMockito.when(animeServiceMocked.findByName(ArgumentMatchers.any()))
                 .thenReturn(List.of(AnimeCreator.createValidAnime()));
 
-        BDDMockito.when(animeServiceMocked.save(AnimeCreator.createAnimeToBeSaved()))
+        BDDMockito.when(animeServiceMocked.save(ArgumentMatchers.any()))
                 .thenReturn(AnimeCreator.createValidAnime());
+
 
     }
 
@@ -65,6 +67,14 @@ class AnimeControllerTest {
         Assertions.assertThat(anime).isNotNull();
         Assertions.assertThat(expectedId).isEqualTo(anime.getId());
     }
+
+//    @Test
+//    @DisplayName("getAnimeById return not found when successful")
+//    public void getAnimeById_ReturnsNothing_When_unSuccessful() {
+//        Anime anime = animeController.getAnimeById(20120).getBody();
+//
+//        Assertions.assertThat(anime).isNull();
+//    }
 
     @Test
     @DisplayName("getAnimeByName return an anime when successful")

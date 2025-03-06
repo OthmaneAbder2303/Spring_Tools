@@ -26,6 +26,7 @@ public class AnimeRespositoryTest {
     public void save_Persistence_WhenSuccessful() {
         Anime anime = createAnime();
         Anime savedAnime = this.animeRepository.save(anime);
+
         Assertions.assertThat(savedAnime.getId()).isNotNull();
         Assertions.assertThat(savedAnime.getName()).isNotNull();
         Assertions.assertThat(savedAnime.getName()).isEqualTo(anime.getName());

@@ -21,7 +21,7 @@ class AnimeControllerTest {
 
     @BeforeEach
     public void setUp() {
-        new PageImpl<Anime>()
+       // new PageImpl<Anime>()
     }
 
     @Test

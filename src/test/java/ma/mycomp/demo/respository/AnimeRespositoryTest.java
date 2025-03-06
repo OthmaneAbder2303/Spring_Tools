@@ -3,6 +3,7 @@ package ma.mycomp.demo.respository;
 import jakarta.validation.ConstraintViolationException;
 import ma.mycomp.demo.domain.Anime;
 import ma.mycomp.demo.repository.AnimeRepository;
+import ma.mycomp.demo.util.AnimeCreator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,7 +25,7 @@ public class AnimeRespositoryTest {
     @Test
     @DisplayName("Save creates anime when successful")
     public void save_Persistence_WhenSuccessful() {
-        Anime anime = createAnime();
+        Anime anime = AnimeCreator.createAnimeToBeSaved();
         Anime savedAnime = this.animeRepository.save(anime);
 
         Assertions.assertThat(savedAnime.getId()).isNotNull();
@@ -35,7 +36,7 @@ public class AnimeRespositoryTest {
     @Test
     @DisplayName("Save updates anime when successful")
     public void save_UpdateAnime_WhenSuccessful() {
-        Anime anime = createAnime();
+        Anime anime = AnimeCreator.createAnimeToBeSaved();
         Anime savedAnime = this.animeRepository.save(anime);
 
         savedAnime.setName("This is an Updated Anime");
@@ -49,7 +50,7 @@ public class AnimeRespositoryTest {
     @Test
     @DisplayName("Delete Removes anime when successful")
     public void delete_RemoveAnime_WhenSuccessful() {
-        Anime anime = createAnime();
+        Anime anime = AnimeCreator.createAnimeToBeSaved();
         Anime savedAnime = this.animeRepository.save(anime);
 
         this.animeRepository.delete(savedAnime);
@@ -63,7 +64,7 @@ public class AnimeRespositoryTest {
     @Test
     @DisplayName("Find By Name returns anime when successful")
     public void findByName_ReturnsAnime_WhenSuccessful() {
-        Anime anime = createAnime();
+        Anime anime = AnimeCreator.createAnimeToBeSaved();
         Anime savedAnime = this.animeRepository.save(anime);
 
         String name = savedAnime.getName();
@@ -76,7 +77,7 @@ public class AnimeRespositoryTest {
     @Test
     @DisplayName("Find By Name returns empty list when no anime is found")
     public void findByName_ReturnsEmptyList_WhenAnimeNotFound() {
-        Anime anime = createAnime();
+        Anime anime = AnimeCreator.createAnimeToBeSaved();
         Anime savedAnime = this.animeRepository.save(anime);
 
         String name = "Fake Name hahaha";
@@ -94,9 +95,4 @@ public class AnimeRespositoryTest {
                 .isInstanceOf(ConstraintViolationException.class);
     }
 
-    private Anime createAnime(){
-        return Anime.builder()
-                .name("Test Anime")
-                .build();
-    }
 }

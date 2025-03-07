@@ -15,17 +15,18 @@ import org.mockito.Mock;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @ExtendWith(SpringExtension.class)
 class AnimeControllerTest {
-    @InjectMocks
+    @InjectMocks //Injecte une instance réelle du contrôleur AnimeController pour le tester.
     private AnimeController animeController;
-    @Mock
+
+    @Mock //Crée un mock de AnimeService pour simuler ses comportements sans interagir avec la base de données.
     private AnimeService animeServiceMocked;
 
     @BeforeEach
@@ -38,12 +39,15 @@ class AnimeControllerTest {
         BDDMockito.when(animeServiceMocked.findById(ArgumentMatchers.anyInt()))
                 .thenReturn(AnimeCreator.createValidAnime());
 
-        BDDMockito.when(animeServiceMocked.findByName(ArgumentMatchers.any()))
+        BDDMockito.when(animeServiceMocked.findByName(ArgumentMatchers.anyString()))
                 .thenReturn(List.of(AnimeCreator.createValidAnime()));
 
         BDDMockito.when(animeServiceMocked.save(ArgumentMatchers.any()))
                 .thenReturn(AnimeCreator.createValidAnime());
 
+        BDDMockito.doNothing().when(animeServiceMocked).deleteById(ArgumentMatchers.anyInt());
+
+        BDDMockito.doNothing().when(animeServiceMocked).update(ArgumentMatchers.any());
 
     }
 
@@ -97,5 +101,41 @@ class AnimeControllerTest {
         Assertions.assertThat(savedAnime.getName()).isNotEmpty();
         Assertions.assertThat(savedAnime.getName()).isEqualTo(anime.getName());
     }
+
+    @Test
+    @DisplayName("deleteAnimeById remove anime when successful")
+    public void delete_RemovesAnime_When_Successful() {
+        Integer animeId = AnimeCreator.createValidAnime().getId();
+        ResponseEntity<Void> responseEntity = animeController.deleteAnimeById(animeId);
+
+        Assertions.assertThat(responseEntity).isNotNull();
+        Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+        Assertions.assertThat(responseEntity.getBody()).isNull();
+    }
+
+    @Test
+    @DisplayName("updateAnime updates anime when successful")
+    public void update_UpdatesAnime_When_Successful() {
+        Anime updatedAnime = AnimeCreator.createValidUpdatedAnime();
+        Integer id = updatedAnime.getId();
+
+        // Simule la mise à jour
+        BDDMockito.doNothing().when(animeServiceMocked).update(updatedAnime);
+
+        // Simule que la recherche renvoie l'anime mis à jour après la mise à jour
+        BDDMockito.when(animeServiceMocked.findById(id))
+                .thenReturn(updatedAnime);
+
+        ResponseEntity<Void> responseEntity = animeController.updateAnime(updatedAnime);
+
+        Assertions.assertThat(responseEntity).isNotNull();
+        Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+
+        // Vérifie que l’anime récupéré après mise à jour contient bien les nouvelles valeurs
+        Anime retrievedAnime = animeController.getAnimeById(id).getBody();
+        Assertions.assertThat(retrievedAnime).isNotNull();
+        Assertions.assertThat(retrievedAnime.getName()).isEqualTo(updatedAnime.getName());
+    }
+
 
 }

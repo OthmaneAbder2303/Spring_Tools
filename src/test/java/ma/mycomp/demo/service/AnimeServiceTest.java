@@ -1,6 +1,7 @@
 package ma.mycomp.demo.service;
 
 import ma.mycomp.demo.domain.Anime;
+import ma.mycomp.demo.exception.ResourceNotFoundException;
 import ma.mycomp.demo.repository.AnimeRepository;
 import ma.mycomp.demo.util.AnimeCreator;
 import ma.mycomp.demo.util.Utils;
@@ -124,5 +125,16 @@ class AnimeServiceTest {
         Assertions.assertThat(result).isNotNull();
         Assertions.assertThat(result.getId()).isEqualTo(updatedAnime.getId());
         Assertions.assertThat(result.getName()).isEqualTo(updatedAnime.getName());
+    }
+
+    @Test
+    @DisplayName("deleteById throw ResourceNotFoundException when the anime does not exist")
+    public void deleteById_ThrowsResourceNotFoundException_WhenAnimeDoesNotExist() {
+        BDDMockito.when(utilsMocked.findAnimeOrThrowNotFound(ArgumentMatchers.anyInt(), ArgumentMatchers.any(AnimeRepository.class)))
+                .thenThrow(new ResourceNotFoundException("Anime Not Found"));
+
+        Integer animeId = AnimeCreator.createValidAnime().getId();
+        Assertions.assertThatExceptionOfType(ResourceNotFoundException.class)
+                .isThrownBy(() -> animeServiceMocked.deleteById(animeId));
     }
 }

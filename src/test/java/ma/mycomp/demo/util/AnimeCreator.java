@@ -6,18 +6,18 @@ public class AnimeCreator {
 
     public static Anime createAnimeToBeSaved() {
         return Anime.builder()
-                .name("Tekashi")
+                .name("tekashi")
                 .build();
     }
     public static Anime createValidAnime() {
         return Anime.builder()
-                .name("Tekashi")
+                .name("tekashi")
                 .id(1)
                 .build();
     }
     public static Anime createValidUpdatedAnime() {
         return Anime.builder()
-                .name("Tekashi 2")
+                .name("tekashi_2")
                 .id(1)
                 .build();
     }

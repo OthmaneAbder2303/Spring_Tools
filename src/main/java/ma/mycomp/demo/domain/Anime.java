@@ -6,11 +6,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
 import lombok.ToString;
 
 @Entity
-@ToString
 public class Anime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,5 +54,13 @@ public class Anime {
 
     public static Builder builder() {
         return new Builder();
+    }
+
+    @Override
+    public String toString() {
+        return "Anime{" +
+                "name='" + name + '\'' +
+                ", id=" + id +
+                '}';
     }
 }
